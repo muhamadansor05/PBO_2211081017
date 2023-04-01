@@ -12,6 +12,7 @@ public class AritmatikaExample {
     public static void main (String[]args){
         int a = 1;
         int b = 2;
-        System.out,println(x:tambah)
+        System.out,println(tambah)
     }
 }
+`   
