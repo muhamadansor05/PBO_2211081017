@@ -8,12 +8,11 @@ package Teori010423;
  *
  * @author acer
  */
-public class Lthn_Modul10 {
-    private BukuAlamat[] daftarBukuAlamat = new BukuAlamat[100];
+public class BukuAlamatexample {
+    private MainBukuAlamat[] daftarBukuAlamat = new MainBukuAlamat[100];
     private int jumlahData = 0;
     
-    // Method untuk memasukkan data
-    public void tambahData(BukuAlamat data) {
+    public void tambahData(MainBukuAlamat data) {
         if (jumlahData < 100) {
             daftarBukuAlamat[jumlahData] = data;
             jumlahData++;
@@ -54,12 +53,36 @@ public class Lthn_Modul10 {
     }
     
     // Method untuk update data
-    public void updateData(int index, BukuAlamat data) {
+    public void updateData(int index, MainBukuAlamat data) {
         if (index < 0 || index >= jumlahData) {
             System.out.println("Index tidak valid.");
         } else {
             daftarBukuAlamat[index] = data;
             System.out.println("Data berhasil diupdate.");
+            public class Main {
+    public static void main(String[] args) {
+        // create an object of BukuAlamat class
+        MainBukuAlamat alamat = new MainBukuAlamat("Muhamad Ansor", "Jl. Dr wahidin 2 ", "082288600104", "muhamadansor05.com");
+        
+        // print the values of the object's attributes
+        System.out.println("Nama: " + alamat.getNama());
+        System.out.println("Alamat: " + alamat.getAlamat());
+        System.out.println("Nomor Telepon: " + alamat.getNomorTelepon());
+        System.out.println("Alamat E-Mail: " + alamat.getAlamatEmail());
+        
+        // update the values of the object's attributes
+        alamat.setNama("Muhamad Ansor");
+        alamat.setAlamat("Jl. Dr wahidin 2");
+        alamat.setNomorTelepon("082288600104");
+        alamat.setAlamatEmail("muhamadansor05.com");
+        
+        // print the updated values of the object's attributes
+        System.out.println("Nama: " + alamat.getNama());
+        System.out.println("Alamat: " + alamat.getAlamat());
+        System.out.println("Nomor Telepon: " + alamat.getNomorTelepon());
+        System.out.println("Alamat E-Mail: " + alamat.getAlamatEmail());
+    }
+}
         }
     }
 }

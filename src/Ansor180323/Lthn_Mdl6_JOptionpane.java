@@ -23,9 +23,9 @@ public class Lthn_Mdl6_JOptionpane {
         JOptionPane.showMessageDialog(null, "Rata-rata nilai ujian adalah: " + rataRata);
 
         if (rataRata >= 60) {
-            JOptionPane.showMessageDialog(null, ":)");
+            JOptionPane.showMessageDialog(null, "Santiang");
         } else {
-            JOptionPane.showMessageDialog(null, ":(");
+            JOptionPane.showMessageDialog(null, "Bongak");
         }
     }
 }
