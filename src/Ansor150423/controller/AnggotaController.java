@@ -3,13 +3,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Ansor150423.controller;
+import Ansor150423.model.AnggotaDao;
+import dao.Koneksi;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import Ansor150423.model.*;
+import Ansor150423.model.Anggota;
 import Ansor150423.view.FormAnggota;
 /*
  *
@@ -37,9 +39,11 @@ public class AnggotaController {
 
     public void insert_anggota() {
         try {
-            anggota.setNobp(this.view.getTxtNobp().getText());
-            anggota.setNama(this.view.getTxtNama().getText());
-            anggota.setAlamat(this.view.getTxtAlamat().getText());
+            anggota.setKodeanggota(this.view.getTxtkodeAnggota().getText());
+            anggota.setNamaanggota(this.view.getTxtNamaAnggota().getText());
+            anggota.setTgllahir(this.view.getTxtTglLahir().getText());
+            anggota.setJekel(this.view.getCboJekel().getSelectedItem().toString());
+            anggota.setIdprodi(this.view.getCboProdi().getSelectedIndex() + 1);
             dao.insert(anggota);
             JOptionPane.showMessageDialog(view, "Entri Data ok");
         } catch (SQLException ex) {

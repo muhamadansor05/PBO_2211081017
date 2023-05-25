@@ -13,13 +13,14 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import model.Peminjaman;
-import view.FormPeminjaman;
+import Ansor150423.model.Peminjaman;
+import Ansor150423.view.FormPeminjaman;
 /**
  *
  * @author acer
  */
 public class PeminjamanController {
+
     FormPeminjaman view;
     BukuDao bukuDao;
     AnggotaDao anggotaDao;

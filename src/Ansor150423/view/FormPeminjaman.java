@@ -3,14 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Ansor150423.view;
-import controller.PeminjamanController;
+import Ansor150423.controller.PeminjamanController;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 /**
  *
  * @author acer
  */
-    public class FormPeminjaman extends javax.swing.JInternalFrame {
+   public class FormPeminjaman extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form FormPeminjaman
