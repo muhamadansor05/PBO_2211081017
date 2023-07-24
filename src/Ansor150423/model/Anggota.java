@@ -9,49 +9,35 @@ import javax.swing.JTextField;
  * @author acer
  */
 public class Anggota {
-    private String kodeanggota;
-    private String namaanggota;
-    private String tgllahir;
-    private String jekel;
-    private int idprodi;
-
-    public String getKodeanggota() {
-        return kodeanggota;
+    private String nobp;
+    private String nama;
+    private String alamat;
+    
+    public Anggota(){}
+    
+    public Anggota(String nobp, String nama, String almat){
+        this.nobp = nobp;
+        this.nama = nama;
+        this.alamat = almat;
     }
-
-    public void setKodeanggota(String kodeanggota) {
-        this.kodeanggota = kodeanggota;
+    
+    public void setNobp(String nobp){
+        this.nobp = nobp;
     }
-
-    public String getNamaanggota() {
-        return namaanggota;
+    public void setNama(String nama){
+        this.nama = nama;
     }
-
-    public void setNamaanggota(String namaanggota) {
-        this.namaanggota = namaanggota;
+    public void setAlamat(String alamat){
+        this.alamat = alamat;
     }
-
-    public String getTgllahir() {
-        return tgllahir;
+    public String getNobp(){
+        return nobp;
     }
-
-    public void setTgllahir(String tgllahir) {
-        this.tgllahir = tgllahir;
+    public String getNama(){
+        return nama;
     }
-
-    public String getJekel() {
-        return jekel;
+    public String getAlamat(){
+        return alamat;
     }
-
-    public void setJekel(String jekel) {
-        this.jekel = jekel;
-    }
-
-    public int getIdprodi() {
-        return idprodi;
-    }
-
-    public void setIdprodi(int idprodi) {
-        this.idprodi = idprodi;
-    }
+    
 }

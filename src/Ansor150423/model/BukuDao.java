@@ -8,21 +8,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import Ansor150423.model.Buku;
+import java.util.List;
 
 /**
  *
  * @author acer
  */
-public class BukuDao {
-    private Connection con;
-
-    public BukuDao(Connection con) {
-        this.con = con;
-    }
-
-    public ResultSet getAllBuku(String sql) throws SQLException{
-        PreparedStatement ps = con.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
-        return rs;
-    }
+public interface BukuDao {
+    void save(Buku buku);
+    void update(int idx, Buku buku);
+    void delete(int idx);
+    Buku getBuku(int idx);
+    List<Buku> getAll();
 }

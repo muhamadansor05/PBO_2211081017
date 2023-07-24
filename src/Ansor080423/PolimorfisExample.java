@@ -10,36 +10,37 @@ package Ansor080423;
  */
 public class PolimorfisExample {
     public static void main(String[] args){
-        Person ref;
+        Person ref; //sifat ref berubah sesuai acuannya
         Student student = new Student();
-        Employee1 emp = new Employee1();
+        Employee emp = new Employee();
         student.setName("Budi");
         student.setAddress("Padang");
+        
         emp.setName("Doni");
         emp.setAddress("Bukittinggi");
         
+        //subclass bisa dijadikan parameter dari superclass
         printInformation(student);
-        
         printInformation(emp);
         
- //       ref = student;
- //       String temp = ref.getName();
- //       System.out.println(temp);
-       
- //       ref = emp;
- //       String temp1 = ref.getName();
- //       System.out.println(temp1);
+        /*
+        ref = student;
+        String tmp = ref.getName();
+        System.out.println(tmp);
+        
+        ref = emp;
+        String tmp1 = ref.getName();
+        System.out.println(tmp1);
+        */
     }
-    
-    public static void printInformation( Person p ){
+    public static void printInformation(Person p){
         if(p instanceof Student){
-             System.out.println("Nama Student     :"+p.getName());
-             System.out.println("Alamat Student   :"+p.getAddress());
-        }else if(p instanceof Employee1){
-            System.out.println("Nama Employee     :"+p.getName());
-            System.out.println("Alamat Employee   :"+p.getAddress());
-            
+            System.out.println("Nama Student   :"+p.getName());
+            System.out.println("Adress Student :"+p.getAddress());
         }
-            
+        if(p instanceof Employee){
+            System.out.println("Nama   Employee:"+p.getName());
+            System.out.println("Adress Emplyee :"+p.getAddress());
+        }
     }
 }

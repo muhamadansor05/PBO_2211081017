@@ -3,10 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Ansor150423.controller;
-import dao.AnggotaDao;
-import dao.BukuDao;
-import dao.Koneksi;
-import dao.PeminjamanDao;
+import Ansor150423.model.Anggota;
+import Ansor150423.model.AnggotaDao;
+import Ansor150423.model.AnggotaDaoImpl;
+import Ansor150423.model.Buku;
+import Ansor150423.model.BukuDao;
+import Ansor150423.model.BukuDaoImpl;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,145 +16,95 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import Ansor150423.model.Peminjaman;
+import Ansor150423.model.PeminjamanDaoImpl;
 import Ansor150423.view.FormPeminjaman;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author acer
  */
 public class PeminjamanController {
-
-    FormPeminjaman view;
-    BukuDao bukuDao;
-    AnggotaDao anggotaDao;
-    PeminjamanDao peminjamanDao;
-    Koneksi k;
-    Connection con;
-    String[] tkodeAnggota;
-    String[] tkodeBuku;
-    Peminjaman peminjaman;
-
-    public PeminjamanController(FormPeminjaman view) {
-        try {
-            this.view = view;
-            k = new Koneksi();
-            con = k.getConnection();
-            bukuDao = new BukuDao(con);
-            peminjamanDao = new PeminjamanDao(con);
-            anggotaDao = new AnggotaDao(con);
-            peminjaman = new Peminjaman();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(PeminjamanController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(PeminjamanController.class.getName()).log(Level.SEVERE, null, ex);
+    private Peminjaman peminjaman;
+    private PeminjamanDaoImpl peminjamanDao;
+    private FormPeminjaman form;
+    
+    private AnggotaDao anggotaDao;
+    private BukuDao bukuDao;
+    
+    public PeminjamanController(FormPeminjaman form){
+        this.form = form;
+        peminjamanDao = new PeminjamanDaoImpl();
+        anggotaDao = new AnggotaDaoImpl();
+        bukuDao = new BukuDaoImpl();
+    }
+    public void cls(){
+        form.getTxtTglpinjam().setText("");
+        form.getTxtTglkembali().setText("");
+    }
+    public void isiCombo(){
+        List<Anggota> listAnggota = anggotaDao.getAll();
+        List<Buku> listBuku = bukuDao.getAll();
+        form.getCboAnggota().removeAllItems();
+        form.getCboBuku().removeAllItems();
+        
+        //isi
+        for(Anggota anggota : listAnggota){
+            form.getCboAnggota().addItem(anggota.getNobp());
+        }
+        for(Buku buku : listBuku){
+            form.getCboBuku().addItem(buku.getKode());
         }
     }
-
-    public void isiCboAnggota() {
-        try {
-            view.getCboKodeAnggota().removeAllItems();
-            ResultSet rsanggota
-                    = anggotaDao.getAllAnggota("select * from anggota");
-            rsanggota.last();
-            int jumlahData = rsanggota.getRow();
-            tkodeAnggota = new String[jumlahData];
-            int counter = 0;
-            rsanggota.beforeFirst();
-            while (rsanggota.next()) {
-                view.getCboKodeAnggota().addItem(rsanggota.getString(2));
-                tkodeAnggota[counter] = rsanggota.getString(1);
-                counter++;
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(PeminjamanController.class.getName()).log(Level.SEVERE, null, ex);
+    public void savePeminjaman(){
+        peminjaman = new Peminjaman();
+        peminjaman.setAnggota(anggotaDao.getAnggota(form.getCboAnggota().getSelectedIndex()));
+        peminjaman.setBuku(bukuDao.getBuku(form.getCboBuku().getSelectedIndex()));
+        peminjaman.setTglpinjam(form.getTxtTglpinjam().getText());
+        peminjaman.setTglkembali(form.getTxtTglkembali().getText());
+        peminjamanDao.save(peminjaman);
+        javax.swing.JOptionPane.showMessageDialog(form, "Entri Ok");
+    }
+    public void getPeminjaman(){
+        int index = form.getTblPeminjaman().getSelectedRow();
+        peminjaman = peminjamanDao.getPeminjaman(index);
+        if(peminjaman != null){
+            form.getCboAnggota().setSelectedItem(peminjaman.getAnggota().getNobp());
+            form.getCboBuku().setSelectedItem(peminjaman.getBuku().getKode());
+            form.getTxtTglpinjam().setText(peminjaman.getTglpinjam());
+            form.getTxtTglkembali().setText(peminjaman.getTglkembali());
         }
     }
-
-    public void isiCboBuku() {
-        try {
-            view.getCboKodeBuku().removeAllItems();
-            ResultSet rsbuku = bukuDao.getAllBuku("select * from buku");
-            rsbuku.last();
-            int jumlahData = rsbuku.getRow();
-            tkodeBuku = new String[jumlahData];
-            int counter = 0;
-            rsbuku.beforeFirst();
-            while (rsbuku.next()) {
-                view.getCboKodeBuku().addItem(rsbuku.getString(2));
-                tkodeBuku[counter] = rsbuku.getString(1);
-                counter++;
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(PeminjamanController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    
+    public void updatePeminjaman(){
+        int idx = form.getTblPeminjaman().getSelectedRow();
+        peminjaman.setAnggota(anggotaDao.getAnggota(form.getCboAnggota().getSelectedIndex()));
+        peminjaman.setBuku(bukuDao.getBuku(form.getCboBuku().getSelectedIndex()));
+        peminjaman.setTglpinjam(form.getTxtTglpinjam().getText());
+        peminjaman.setTglkembali(form.getTxtTglkembali().getText());
+        peminjamanDao.update(idx,peminjaman);
     }
-
-    public void insert() {
-        try {
-            peminjaman.setKodeanggota(
-                    tkodeAnggota[view.getCboKodeAnggota().getSelectedIndex()]);
-            peminjaman.setKodebuku(
-                    tkodeBuku[view.getCboKodeBuku().getSelectedIndex()]);
-            peminjaman.setTglpinjam(view.getTxtTglPinjam().getText());
-            peminjaman.setTglkembali(view.getTxtTglKembali().getText());
-            peminjamanDao.insert(peminjaman);
-            JOptionPane.showMessageDialog(view, "Entri Data ok");
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(view, "Entri Data Gagal " + ex.getMessage());
-        }
-
+    
+    public void deletePeminjaman(){
+        int idx = form.getTblPeminjaman().getSelectedRow();
+        peminjamanDao.delete(idx);
+        javax.swing.JOptionPane.showMessageDialog(form, "Deleted");
     }
-
-    public void update() {
-        try {
-            peminjaman.setKodeanggota(
-                    tkodeAnggota[view.getCboKodeAnggota().getSelectedIndex()]);
-            peminjaman.setKodebuku(
-                    tkodeBuku[view.getCboKodeBuku().getSelectedIndex()]);
-            peminjaman.setTglpinjam(view.getTxtTglPinjam().getText());
-            peminjaman.setTglkembali(view.getTxtTglKembali().getText());
-            peminjamanDao.update(peminjaman);
-            JOptionPane.showMessageDialog(view, "Update Data ok");
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(view, "Entri Data Gagal " + ex.getMessage());
-        }
-
-    }
-
-    public void delete() {
-        try {
-            peminjaman.setKodeanggota(
-                    tkodeAnggota[view.getCboKodeAnggota().getSelectedIndex()]);
-            peminjaman.setKodebuku(
-                    tkodeBuku[view.getCboKodeBuku().getSelectedIndex()]);
-            peminjaman.setTglpinjam(view.getTxtTglPinjam().getText());
-            peminjamanDao.delete(
-                    peminjaman.getKodeanggota(),
-                    peminjaman.getKodebuku(),
-                    peminjaman.getTglpinjam());
-            JOptionPane.showMessageDialog(view, "Delete Data ok");
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(view, "Delete Data Gagal "
-                    + ex.getMessage());
-        }
-    }
-
-    public void cari() {
-        try {
-            String kdanggota =
-                    tkodeAnggota[view.getCboKodeAnggota().getSelectedIndex()];
-            String kdbuku =
-                    tkodeBuku[view.getCboKodeBuku().getSelectedIndex()];
-            String tglpinjam = view.getTxtTglPinjam().getText();
-            peminjaman = peminjamanDao.getPeminjaman(
-                    kdanggota, kdbuku, tglpinjam);
-            if(peminjaman!=null){
-               view.getTxtTglKembali().setText(peminjaman.getTglkembali()); 
-            }else{
-                view.getTxtTglKembali().setText("");
-                JOptionPane.showMessageDialog(view, "Data Tidak Ada");
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(PeminjamanController.class.getName()).log(Level.SEVERE, null, ex);
+    
+    public void tampilData(){
+        DefaultTableModel tabelModel =
+                (DefaultTableModel) form.getTblPeminjaman().getModel();
+        tabelModel.setRowCount(0);
+        java.util.List<Peminjaman> list = peminjamanDao.getAll();
+        for(Peminjaman peminjaman : list){
+            Object[] data = {
+                peminjaman.getAnggota().getNobp(),
+                peminjaman.getAnggota().getNama(),
+                peminjaman.getBuku().getKode(),
+                peminjaman.getTglpinjam(),
+                peminjaman.getTglkembali()
+            };
+            tabelModel.addRow(data);
         }
     }
 }

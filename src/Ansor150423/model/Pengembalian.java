@@ -4,74 +4,90 @@
  */
 package Ansor150423.model;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 /**
  *
  * @author acer
  */
-    public class Pengembalian {
-    private String kodeanggota;
-    private String kodebuku;
-    private String tglpinjam;
-    private String tglkembali;
-    private String tgldikembalikan;
+public class Pengembalian {
+    private String dikembalikan;
     private int terlambat;
     private double denda;
+    private String strterlambat;
+    private String strdenda;
+    
+    public Pengembalian(){}
+    
+    public Pengembalian(String tglKembali,String dikembalikan){
+        try{
+            this.dikembalikan = dikembalikan;
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate deadline = LocalDate.parse(tglKembali, formatter);
+            LocalDate tanggalKmbl = LocalDate.parse(this.dikembalikan, formatter);
 
-    public String getKodeanggota() {
-        return kodeanggota;
-    }
+            //nyari terlambat
+            terlambat = 0;
+            if (tanggalKmbl.isAfter(deadline)) {
+                terlambat = tanggalKmbl.compareTo(deadline);
+            }
+            strterlambat = ""+terlambat;
 
-    public void setKodeanggota(String kodeanggota) {
-        this.kodeanggota = kodeanggota;
-    }
-
-    public String getKodebuku() {
-        return kodebuku;
-    }
-
-    public void setKodebuku(String kodebuku) {
-        this.kodebuku = kodebuku;
-    }
-
-    public String getTglpinjam() {
-        return tglpinjam;
-    }
-
-    public void setTglpinjam(String tglpinjam) {
-        this.tglpinjam = tglpinjam;
-    }
-
-    public String getTglkembali() {
-        return tglkembali;
-    }
-
-    public void setTglkembali(String tglkembali) {
-        this.tglkembali = tglkembali;
-    }
-
-    public String getTgldikembalikan() {
-        return tgldikembalikan;
-    }
-
-    public void setTgldikembalikan(String tgldikembalikan) {
-        this.tgldikembalikan = tgldikembalikan;
-    }
-
-    public int getTerlambat() {
-        return terlambat;
-    }
-
-    public void setTerlambat(int terlambat) {
-        this.terlambat = terlambat;
-    }
-
-    public double getDenda() {
-        return denda;
-    }
-
-    public void setDenda(double denda) {
-        this.denda = denda;
+            //nyari denda
+            denda = (double)terlambat*500;
+            strdenda = ""+ denda;
+        }catch(Exception e){
+            this.dikembalikan = "Belum dikembalikan";
+            strterlambat = "";
+            terlambat = -1;
+            strdenda = "";
+            denda = -1;
+        }
     }
     
-    
+    public String getDikembalikan(){
+        return dikembalikan;
+    }
+    public String getTerlambat(){
+        return strterlambat;
+    }
+    public String getDenda(){
+        return strdenda;
+    }
+    public void setDikembalikan(String dikembalikan){
+        try{
+            this.dikembalikan = dikembalikan;
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            //mengetes apakah tanggal valid
+            LocalDate coba = LocalDate.parse(dikembalikan, formatter);
+        }catch(Exception e){
+            this.dikembalikan = "Belum dikembalikan";
+        }
+    }
+    public void setTerlambat(String tglKembali){
+        try{
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate deadline = LocalDate.parse(tglKembali, formatter);
+            LocalDate tanggalKmbl = LocalDate.parse(this.dikembalikan, formatter);
+
+            terlambat = 0;
+            if (tanggalKmbl.isAfter(deadline)) {
+                terlambat = tanggalKmbl.compareTo(deadline);
+            }
+            strterlambat = String.valueOf(terlambat);
+        }catch(Exception e){
+            terlambat = -1;
+            strterlambat = "";
+        }
+    }
+    public void setDenda(){
+        if(terlambat != -1){
+            denda = (double)terlambat*500;
+            strdenda = "" + denda;
+        }else{
+            denda = -1;
+            strdenda = "";
+        }
+    }
 }

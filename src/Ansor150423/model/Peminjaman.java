@@ -9,42 +9,47 @@ package Ansor150423.model;
  * @author acer
  */
 public class Peminjaman {
-    private String kodeanggota;
-    private String kodebuku;
+    private Anggota anggota;
+    private Buku buku;
     private String tglpinjam;
     private String tglkembali;
-
-    public String getKodeanggota() {
-        return kodeanggota;
-    }
-
-    public void setKodeanggota(String kodeanggota) {
-        this.kodeanggota = kodeanggota;
-    }
-
-    public String getKodebuku() {
-        return kodebuku;
-    }
-
-    public void setKodebuku(String kodebuku) {
-        this.kodebuku = kodebuku;
-    }
-
-    public String getTglpinjam() {
-        return tglpinjam;
-    }
-
-    public void setTglpinjam(String tglpinjam) {
+    
+    public Peminjaman(){}
+    public Peminjaman(Anggota anggota,Buku buku,String tglpinjam,String tglkembali){
+        this.anggota = anggota;
+        this.buku = buku;
         this.tglpinjam = tglpinjam;
-    }
-
-    public String getTglkembali() {
-        return tglkembali;
-    }
-
-    public void setTglkembali(String tglkembali) {
         this.tglkembali = tglkembali;
     }
     
+    public void setAnggota(Anggota anggota){
+        this.anggota = anggota;
+    }
+    public void setBuku(Buku buku){
+        this.buku = buku;
+    }
+    public void setTglpinjam(String tglpinjam){
+        this.tglpinjam = tglpinjam;
+    }
+    public void setTglkembali(String tglkembali){
+        this.tglkembali = tglkembali;
+    }
+    
+    public Anggota getAnggota(){
+        return anggota;
+    }
+    public Buku getBuku(){
+        return buku;
+    }
+    public String getTglpinjam(){
+        return tglpinjam;
+    }
+    public String getTglkembali(){
+        return tglkembali;
+    }
+
+    public String getTglKembali() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
 }

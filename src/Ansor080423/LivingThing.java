@@ -8,17 +8,13 @@ package Ansor080423;
  *
  * @author acer
  */
-public class LivingThing {
-    public abstract class LivingThing {
-    
-    public void bernafas(){ 
-    System.out.println("Bernafas ..."); 
+public abstract class LivingThing{
+    public void bernapas(){
+        System.out.println("Bernapas seperti makhluk hidup...");
     }
-    
-    public void makan(){ 
-    System.out.println("Makan ..."); 
+    public void makan(){
+        System.out.println("Makan seperti makhluk hidup...");
     }
     
     public abstract void berjalan();
-    
 }

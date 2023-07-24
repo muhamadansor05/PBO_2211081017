@@ -8,11 +8,9 @@ package Ansor080423;
  *
  * @author acer
  */
-public class Employee1 extends Person {
-    
-    @Override
-    public String getName(){ 
- System.out.println("getName Employee"); 
- return name;
+public class Employee extends Person{
+    public String getName(){
+        System.out.println("Employee Name: ");
+        return name;
     }
 }

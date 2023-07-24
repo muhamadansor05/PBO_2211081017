@@ -10,50 +10,49 @@ package Ansor150423.model;
  */
 public class Buku {
     private String kodebuku;
-    private String judul;
+    private String judulbuku;
     private String pengarang;
     private String penerbit;
     private String tahunterbit;
-
-    public String getKodebuku() {
+    
+    public Buku(){}
+    
+    public Buku(String kd, String jdl, String peng, String pen, String th){
+        this.kodebuku = kd;
+        this.judulbuku = jdl;
+        this.pengarang = peng;
+        this.penerbit = pen;
+        this.tahunterbit = th;
+    }
+    
+    public void setKode(String kd){
+        this.kodebuku = kd;
+    }
+    public String getKode(){
         return kodebuku;
     }
-
-    public void setKodebuku(String kodebuku) {
-        this.kodebuku = kodebuku;
+    public void setJudul(String jd){
+        this.judulbuku = jd;
     }
-
-    public String getJudul() {
-        return judul;
+    public String getJudul(){
+        return judulbuku;
     }
-
-    public void setJudul(String judul) {
-        this.judul = judul;
+    public void setPengarang(String pg){
+        this.pengarang = pg;
     }
-
-    public String getPengarang() {
+    public String getPengarang(){
         return pengarang;
     }
-
-    public void setPengarang(String pengarang) {
-        this.pengarang = pengarang;
+    public void setPenerbit(String pn){
+        this.penerbit = pn;
     }
-
-    public String getPenerbit() {
+    public String getPenerbit(){
         return penerbit;
     }
-
-    public void setPenerbit(String penerbit) {
-        this.penerbit = penerbit;
+    public void setTahun(String th){
+        this.tahunterbit = th;
     }
-
-    public String getTahunterbit() {
+    public String getTahun(){
         return tahunterbit;
     }
-
-    public void setTahunterbit(String tahunterbit) {
-        this.tahunterbit = tahunterbit;
-    }
-    
-    
 }

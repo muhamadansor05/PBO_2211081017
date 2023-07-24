@@ -3,83 +3,98 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Ansor060523.model;
-import java.util.Scanner;
+
 /**
  *
  * @author acer
  */
 public class Gaji {
+    private Karyawan karyawan;
     private int bulan;
     private int tahun;
-    private String nip;
     private double gajiPokok;
     private double tunjanganAnak;
     private double tunjanganIstri;
     private double totalGaji;
-
-    public Gaji(int bulan, int tahun, String nip, double gajiPokok, double tunjanganAnak, double tunjanganIstri) {
+    
+    public Gaji(){}
+    public Gaji(Karyawan karyawan, int bulan, int tahun){
+        this.karyawan = karyawan;
         this.bulan = bulan;
         this.tahun = tahun;
-        this.nip = nip;
-        this.gajiPokok = gajiPokok;
-        this.tunjanganAnak = tunjanganAnak;
-        this.tunjanganIstri = tunjanganIstri;
-        this.totalGaji = gajiPokok + tunjanganAnak + tunjanganIstri;
+        
+        setGajiPokok(karyawan);
+        setTunjanganAnak(karyawan);
+        setTunjanganIstri(karyawan);
+        setTotalGaji();
     }
-
-    public int getBulan() {
+    
+    public void setKaryawan(Karyawan karyawan){
+        this.karyawan = karyawan;
+    }
+    public void setBulan(int bulan){
+        this.bulan = bulan;
+    }
+    public void setTahun(int tahun){
+        this.tahun = tahun;
+    }
+    public void setGajiPokok(Karyawan karyawan){
+        switch(karyawan.getJabatan()){
+            case "Bos":
+                this.gajiPokok = 5000000;
+                break;
+            case "Emp":
+                this.gajiPokok = 5000000;
+                break;
+            case "OB":
+                this.gajiPokok = 5000000;
+                break;
+            default:
+                this.gajiPokok = 0;
+                break;
+        }
+    }
+    public void setTunjanganIstri(Karyawan karyawan){
+        if(gajiPokok != 0 && karyawan.getStatusNikah()=="y"){
+            this.tunjanganIstri = 1000000;
+        }else{
+            this.tunjanganIstri =0;
+        }
+    }
+    public void setTunjanganAnak(Karyawan karyawan){
+        if(gajiPokok != 0){
+            this.tunjanganAnak = karyawan.getJumlahAnak()*1000000;
+        }else{
+            this.tunjanganAnak =0;
+        }
+    }
+    public void setTotalGaji(){
+        if(gajiPokok != 0){
+            this.totalGaji = gajiPokok + tunjanganAnak + tunjanganIstri;
+        }else{
+            this.totalGaji =0;
+        }
+    }
+    
+    public Karyawan getKaryawan(){
+        return karyawan;
+    }
+    public int getBulan(){
         return bulan;
     }
-
-    public int getTahun() {
+    public int getTahun(){
         return tahun;
     }
-
-    public String getNip() {
-        return nip;
-    }
-
-    public double getGajiPokok() {
+    public double getGajiPokok(){
         return gajiPokok;
     }
-
-    public double getTunjanganAnak() {
+    public double getTunjanganAnak(){
         return tunjanganAnak;
     }
-
-    public double getTunjanganIstri() {
+    public double getTunjanganIstri(){
         return tunjanganIstri;
     }
-
-    public double getTotalGaji() {
+    public double getTotalGaji(){
         return totalGaji;
     }
-
-    public void setBulan(int bulan) {
-        this.bulan = bulan;
-    }
-
-    public void setTahun(int tahun) {
-        this.tahun = tahun;
-    }
-
-    public void setNip(String nip) {
-        this.nip = nip;
-    }
-
-    public void setGajiPokok(double gajiPokok) {
-        this.gajiPokok = gajiPokok;
-    }
-
-    public void setTunjanganAnak(double tunjanganAnak) {
-        this.tunjanganAnak = tunjanganAnak;
-    }
-
-    public void setTunjanganIstri(double tunjanganIstri) {
-        this.tunjanganIstri = tunjanganIstri;
-    }
-
-    public void setTotalGaji(double totalGaji) {
-        this.totalGaji = totalGaji;
-    }
-} 
+}

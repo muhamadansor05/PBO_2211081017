@@ -5,42 +5,99 @@
 package Ansor060523.controller;
 import java.util.Scanner;
 import Ansor060523.model.*;
+import Ansor060523.view.FormGaji;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author acer
  */
 public class GajiController {
-    private Scanner scanner = new Scanner(System.in);
-
-    public void inputData() {
-        System.out.print("Masukkan jumlah data gaji yang ingin diinputkan: ");
-        int jumlahData = scanner.nextInt();
-
-        for (int i = 0; i < jumlahData; i++) {
-            System.out.println("Data ke-" + (i+1));
-
-            System.out.print("Masukkan bulan: ");
-            int bulan = scanner.nextInt();
-
-            System.out.print("Masukkan tahun: ");
-            int tahun = scanner.nextInt();
-
-            scanner.nextLine();
-
-            System.out.print("Masukkan NIP: ");
-            String nip = scanner.nextLine();
-
-            System.out.print("Masukkan gaji pokok: ");
-            double gajiPokok = scanner.nextDouble();
-
-            System.out.print("Masukkan tunjangan anak: ");
-            double tunjanganAnak = scanner.nextDouble();
-
-            System.out.print("Masukkan tunjangan istri: ");
-            double tunjanganIstri = scanner.nextDouble();
-
-            Gaji gaji = new Gaji(bulan, tahun, nip, gajiPokok, tunjanganAnak, tunjanganIstri);
-            listGaji.add(gaji);
+    private FormGaji form;
+    private GajiDao gajiDao;
+    private Gaji gaji;
+    private KaryawanDao karyawanDao;
+    private Karyawan karyawan;
+    
+    public GajiController(FormGaji form){
+        this.form = form;
+        gajiDao = new GajiDaoImpl();
+        karyawanDao = new KaryawanDaoImpl();
+    }
+    public void clear(){
+        form.getTxtBulan().setText("");
+        form.getTxtTahun().setText("");
+    }
+    public void generateCombo(){
+        List<Karyawan> listKaryawan = karyawanDao.getAll();
+        form.getCboKaryawan().removeAllItems();
+        for(Karyawan karyawan : listKaryawan){
+            form.getCboKaryawan().addItem(karyawan.getNip());
+        }
+    }
+    public void get(){
+        int index = form.getTblGaji().getSelectedRow();
+        gaji = gajiDao.getGaji(index);
+        if(gaji != null){
+            form.getCboKaryawan().setSelectedItem(gaji.getKaryawan().getNip());
+            form.getTxtBulan().setText(""+gaji.getBulan());
+            form.getTxtTahun().setText(""+gaji.getTahun());
+        }
+    }
+    public void insert(){
+        try{
+            gaji = new Gaji();
+            gaji.setBulan(Integer.parseInt(form.getTxtBulan().getText()));
+            gaji.setTahun(Integer.parseInt(form.getTxtTahun().getText()));
+            gaji.setKaryawan(karyawanDao.getKaryawan(form.getCboKaryawan().getSelectedIndex()));
+            gaji.setGajiPokok(karyawanDao.getKaryawan(form.getCboKaryawan().getSelectedIndex()));
+            gaji.setTunjanganAnak(karyawanDao.getKaryawan(form.getCboKaryawan().getSelectedIndex()));
+            gaji.setTunjanganIstri(karyawanDao.getKaryawan(form.getCboKaryawan().getSelectedIndex()));
+            gaji.setTotalGaji();
+            gajiDao.save(gaji);
+            javax.swing.JOptionPane.showMessageDialog(form, "gaji ditambahkan");
+        }catch(Exception e){
+            javax.swing.JOptionPane.showMessageDialog(form, "Tidak valid");
+        }
+    }
+    public void update(){
+        try{
+            int idx = form.getTblGaji().getSelectedRow();
+            gaji.setBulan(Integer.parseInt(form.getTxtBulan().getText()));
+            gaji.setTahun(Integer.parseInt(form.getTxtTahun().getText()));
+            gaji.setGajiPokok(karyawanDao.getKaryawan(form.getCboKaryawan().getSelectedIndex()));
+            gaji.setTunjanganAnak(karyawanDao.getKaryawan(form.getCboKaryawan().getSelectedIndex()));
+            gaji.setTunjanganIstri(karyawanDao.getKaryawan(form.getCboKaryawan().getSelectedIndex()));
+            gaji.setTotalGaji();
+            gajiDao.update(idx,gaji);
+            javax.swing.JOptionPane.showMessageDialog(form, "gaji diupdate");
+        }catch(Exception e){
+            javax.swing.JOptionPane.showMessageDialog(form, "Tidak valid");
+        }
+    }
+    
+    public void delete(){
+        int idx = form.getTblGaji().getSelectedRow();
+        gajiDao.delete(idx);
+        javax.swing.JOptionPane.showMessageDialog(form, "gaji dipecat");
+    }
+    
+    public void display(){
+        DefaultTableModel tabelModel =
+                (DefaultTableModel) form.getTblGaji().getModel();
+        tabelModel.setRowCount(0);
+        java.util.List<Gaji> list = gajiDao.getAll();
+        for(Gaji gaji : list){
+            Object[] data = {
+                gaji.getBulan(),
+                gaji.getTahun(),
+                gaji.getKaryawan().getNip(),
+                gaji.getGajiPokok(),
+                gaji.getTunjanganAnak(),
+                gaji.getTunjanganIstri(),
+                gaji.getTotalGaji()
+            };
+            tabelModel.addRow(data);
         }
     }
 }

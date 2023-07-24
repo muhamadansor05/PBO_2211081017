@@ -7,10 +7,8 @@ package Ansor080423;
  *
  * @author acer
  */
-public class Kuda {
-    public class Kuda extends LivingThing{
+public class Kuda extends LivingThing{
     public void berjalan(){
-        System.out.println("Berjalan kuda");
+        System.out.println("Berjalan seperti kuda...");
     }
-    
 }
